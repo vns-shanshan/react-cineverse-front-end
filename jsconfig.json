@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["esnext", "dom"],
+    "jsx": "react-jsx",
+    "checkJs": true,
+    "types": ["vite/client"],
+    "baseUrl": "./",
+    "strict": false, // Disable all TypeScript-like checking
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "noEmit": true, // Pr
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src"]
+}

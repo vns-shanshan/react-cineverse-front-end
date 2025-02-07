@@ -1,24 +1,41 @@
-import { useContext } from 'react';
-import { Routes, Route } from 'react-router';
+import { useContext } from "react";
+import { Routes, Route } from "react-router";
 
-import NavBar from './components/NavBar/NavBar';
-import SignUpForm from './components/SignUpForm/SignUpForm';
-import SignInForm from './components/SignInForm/SignInForm';
-import Landing from './components/Landing/Landing';
-import Dashboard from './components/Dashboard/Dashboard';
-
-import { UserContext } from './contexts/UserContext';
+import "react";
+import { UserContext } from "@/contexts/UserContext";
+import AllMovieList from "@/components/AllMovieList/AllMovieList";
+import MovieDetails from "@/components/MovieDetails/MovieDetails";
+import MovieForm from "@/components/MovieForm/MovieForm";
+import NavBar from "@/components/NavBar/NavBar";
+import SignInForm from "@/components/SignInForm/SignInForm";
+import SignUpForm from "@/components/SignUpForm/SignUpForm";
 
 const App = () => {
   const { user } = useContext(UserContext);
-  
+
   return (
     <>
-      <NavBar/>
+      <NavBar />
       <Routes>
-        <Route path='/' element={user ? <Dashboard /> : <Landing />} />
-        <Route path='/sign-up' element={<SignUpForm />} />
-        <Route path='/sign-in' element={<SignInForm />} />
+        <Route path="/" element={<AllMovieList />} />
+        <Route path="/movies/" element={<AllMovieList />} />
+        <Route path="/movies/:movieId" element={<MovieDetails />} />
+        {user ? (
+          <>
+            <Route
+              path="/movies/my-movies"
+              element={<AllMovieList userId={user._id} />}
+            />
+
+            <Route path="/movies/new" element={<MovieForm />} />
+          </>
+        ) : (
+          <>
+            <Route path="/sign-up" element={<SignUpForm />} />
+
+            <Route path="/sign-in" element={<SignInForm />} />
+          </>
+        )}
       </Routes>
     </>
   );

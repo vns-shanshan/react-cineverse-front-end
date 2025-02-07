@@ -1,13 +1,12 @@
-import { useContext } from 'react';
-import { Link } from 'react-router';
-
-import { UserContext } from '../../contexts/UserContext';
+import { UserContext } from "@/contexts/UserContext";
+import { useContext } from "react";
+import { Link } from "react-router";
 
 const NavBar = () => {
   const { user, setUser } = useContext(UserContext);
 
   const handleSignOut = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setUser(null);
   };
 
@@ -15,15 +14,47 @@ const NavBar = () => {
     <nav>
       {user ? (
         <ul>
-          <li>Welcome, {user.username}</li>
-          <li><Link to='/'>Dashboard</Link></li>
-          <li><Link to='/' onClick={handleSignOut}>Sign Out</Link></li>
+          <li>
+            <div>
+              <Link to="/movies">All Movies</Link>
+            </div>
+          </li>
+
+          <li>
+            <div>
+              <Link to="/movies/my-movies">My Movies</Link>
+            </div>
+          </li>
+
+          <li>
+            <div>
+              <Link to="/movies/new">Add a Movie</Link>
+            </div>
+          </li>
+
+          <li>
+            <div>
+              <Link to="/sign-in" onClick={handleSignOut}>
+                Sign Out
+              </Link>
+            </div>
+          </li>
         </ul>
       ) : (
         <ul>
-          <li><Link to='/'>Home</Link></li>
-          <li><Link to='/sign-in'>Sign In</Link></li>
-          <li><Link to='/sign-up'>Sign Up</Link></li>
+          <li>
+            <div>
+              <Link to="/movies">All Movies</Link>
+            </div>
+          </li>
+
+          <li>
+            <Link to="/sign-in">Sign In</Link>
+          </li>
+
+          <li>
+            <Link to="/sign-up">Sign Up</Link>
+          </li>
         </ul>
       )}
     </nav>
