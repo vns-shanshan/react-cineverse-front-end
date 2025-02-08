@@ -1,5 +1,6 @@
-import { useParams } from "react-router";
+import { useParams, Link } from "react-router";
 import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router";
 
 import * as movieService from "@/services/movieService";
 import { UserContext } from "@/contexts/UserContext";
@@ -8,10 +9,21 @@ function MovieDetails() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const { user: currentUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const isCreator = currentUser?._id === movie?.user._id;
 
   const isLoggedIn = !!currentUser;
+
+  const handleDeleteMovie = async () => {
+    const deletedMovie = await movieService.deleteMovie(movieId);
+
+    navigate("/movies/my-movies");
+  };
+
+  const handleCommentClick = () => {
+    navigate(`/movies/${movieId}/comments/create`);
+  };
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -39,8 +51,8 @@ function MovieDetails() {
 
         {isCreator && (
           <div>
-            <button>Edit Movie</button>
-            <button>Delete Movie</button>
+            <Link to={`/movies/${movieId}/edit`}>Edit Movie</Link>
+            <button onClick={() => handleDeleteMovie()}>Delete Movie</button>
           </div>
         )}
       </section>
@@ -50,7 +62,9 @@ function MovieDetails() {
 
         {!movie.comments.length && <p>There are no comments.</p>}
 
-        {isLoggedIn && <button>Add a Comment</button>}
+        {isLoggedIn && (
+          <button onClick={handleCommentClick}>Add a Comment</button>
+        )}
 
         {movie.comments.map((comment) => (
           <article key={comment._id}>
@@ -58,6 +72,13 @@ function MovieDetails() {
               <h4>{comment.author_id.username}</h4>
 
               <p>{new Date(comment.createdAt).toLocaleDateString()}</p>
+
+              {comment.author_id._id === currentUser._id && (
+                <div>
+                  <button>Edit</button>
+                  <button>Delete</button>
+                </div>
+              )}
             </header>
 
             <p>{comment.commentDetails}</p>

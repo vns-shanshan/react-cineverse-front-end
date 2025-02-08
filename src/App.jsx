@@ -9,6 +9,7 @@ import MovieForm from "@/components/MovieForm/MovieForm";
 import NavBar from "@/components/NavBar/NavBar";
 import SignInForm from "@/components/SignInForm/SignInForm";
 import SignUpForm from "@/components/SignUpForm/SignUpForm";
+import CommentForm from "@/components/CommentForm/CommentForm";
 
 const App = () => {
   const { user } = useContext(UserContext);
@@ -17,9 +18,9 @@ const App = () => {
     <>
       <NavBar />
       <Routes>
-        <Route path="/" element={<AllMovieList />} />
-        <Route path="/movies/" element={<AllMovieList />} />
+        <Route path="/movies" element={<AllMovieList />} />
         <Route path="/movies/:movieId" element={<MovieDetails />} />
+
         {user ? (
           <>
             <Route
@@ -28,6 +29,12 @@ const App = () => {
             />
 
             <Route path="/movies/new" element={<MovieForm />} />
+            <Route path="/movies/:movieId/edit" element={<MovieForm />} />
+
+            <Route
+              path="/movies/:movieId/comments/create"
+              element={<CommentForm />}
+            />
           </>
         ) : (
           <>

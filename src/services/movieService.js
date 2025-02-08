@@ -58,4 +58,59 @@ const create = async (movieFormData) => {
     }
 }
 
-export { index, getMyMovies, show, create }
+const createComment = async (movieId, commentFormData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/${movieId}/comments`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(commentFormData),
+        });
+
+        const data = await res.json();
+
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const deleteMovie = async (movieId) => {
+    try {
+        const res = await fetch(`${BASE_URL}/${movieId}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        const data = await res.json();
+
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const updateMovie = async (movieId, movieFormData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/${movieId}`, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: movieFormData
+        })
+
+        const data = await res.json();
+
+        return data;
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export { index, getMyMovies, show, create, createComment, deleteMovie, updateMovie }

@@ -1,23 +1,34 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as movieService from "@/services/movieService";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import dayjs from "dayjs";
 
 function MovieForm() {
+  const { movieId } = useParams();
+  // console.log(movieId);
   const [formData, setFormData] = useState({
     title: "",
     genre: "Action",
     releasedDate: "",
     runtime: "",
     details: "",
+    photo: null, // type is buffer when uploading, type is string from BE
   });
 
-  const [photo, setPhoto] = useState("");
+  const fileUploadRef = useRef(null);
+
+  const [photoPreviewUrl, setPhotoPreviewUrl] = useState(null);
 
   const navigate = useNavigate();
 
   const handleAddMovie = async (formWithPhoto) => {
     await movieService.create(formWithPhoto);
     navigate("/movies");
+  };
+
+  const handleUpdateMovie = async () => {
+    await movieService.updateMovie(movieId, formData);
+    navigate(`/movies/${movieId}`);
   };
 
   const handleChange = (e) => {
@@ -27,24 +38,66 @@ function MovieForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formWithPhoto = new FormData();
+    if (movieId) {
+      handleUpdateMovie();
+    } else {
+      const formWithPhoto = new FormData();
 
-    formWithPhoto.append("title", formData.title);
-    formWithPhoto.append("genre", formData.genre);
-    formWithPhoto.append("releasedDate", formData.releasedDate);
-    formWithPhoto.append("runtime", formData.runtime);
-    formWithPhoto.append("details", formData.details);
-    formWithPhoto.append("photo", photo);
+      formWithPhoto.append("title", formData.title);
+      formWithPhoto.append("genre", formData.genre);
+      formWithPhoto.append("releasedDate", formData.releasedDate);
+      formWithPhoto.append("runtime", formData.runtime);
+      formWithPhoto.append("details", formData.details);
+      formWithPhoto.append("photo", formData.photo);
 
-    handleAddMovie(formWithPhoto);
+      handleAddMovie(formWithPhoto);
+    }
+  };
+
+  const convertToBase64 = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file); // Convert file to Base64
+    reader.onload = () => {
+      setPhotoPreviewUrl(reader.result); // Store Base64 in state
+      // console.log("Base64 String: ", reader.result); // Debugging
+    };
+    reader.onerror = (error) => {
+      console.error("Error converting file:", error);
+    };
   };
 
   const handleFileInput = (e) => {
-    setPhoto(e.target.files[0]);
+    setFormData((prev) => ({ ...prev, photo: e.target.files[0] }));
+
+    // convert binary to base64 str, and save to formdata.photo
+    convertToBase64(e.target.files[0]);
   };
+
+  const openFilePicker = () => {
+    if (fileUploadRef.current) {
+      fileUploadRef.current.click();
+    }
+  };
+
+  useEffect(() => {
+    const fetchMovie = async () => {
+      const movieData = await movieService.show(movieId);
+
+      movieData.releasedDate = dayjs(movieData.releasedDate).format(
+        "YYYY-MM-DD"
+      );
+      // console.log(movieData);
+      setFormData(movieData);
+      setPhotoPreviewUrl(movieData.photo);
+    };
+
+    if (movieId) fetchMovie();
+  }, [movieId]);
 
   return (
     <main>
+      <h1>{movieId ? "Edit Movie" : "New Movie"}</h1>
+
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title *</label>
         <input
@@ -103,9 +156,23 @@ function MovieForm() {
         ></textarea>
 
         <label htmlFor="movie-pic">Movie Pic:</label>
-        <input type="file" id="movie-pic" onChange={handleFileInput} />
+        <input
+          ref={fileUploadRef}
+          type="file"
+          id="movie-pic"
+          onChange={handleFileInput}
+          hidden
+        />
 
-        <button type="submit">Add Movie</button>
+        {photoPreviewUrl ? (
+          <img width={200} src={photoPreviewUrl} onClick={openFilePicker} />
+        ) : (
+          <button type="button" onClick={openFilePicker}>
+            placeholder
+          </button>
+        )}
+
+        <button type="submit">{movieId ? "Update Movie" : "Add Movie"}</button>
       </form>
     </main>
   );
