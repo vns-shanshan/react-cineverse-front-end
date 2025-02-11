@@ -113,4 +113,41 @@ const updateMovie = async (movieId, movieFormData) => {
     }
 }
 
-export { index, getMyMovies, show, create, createComment, deleteMovie, updateMovie }
+const deleteComment = async (movieId, commentId) => {
+    try {
+        const res = await fetch(`${BASE_URL}/${movieId}/comments/${commentId}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        const data = await res.json();
+
+        return data;
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const updateComment = async (movieId, commentId, commentFormData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/${movieId}/comments/${commentId}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(commentFormData)
+        });
+
+        const data = await res.json();
+
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export { index, getMyMovies, show, create, createComment, deleteMovie, updateMovie, deleteComment, updateComment }

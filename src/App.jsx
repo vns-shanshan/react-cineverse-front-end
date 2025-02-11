@@ -35,6 +35,10 @@ const App = () => {
               path="/movies/:movieId/comments/create"
               element={<CommentForm />}
             />
+            <Route
+              path="/movies/:movieId/comments/:commentId/edit"
+              element={<CommentForm />}
+            />
           </>
         ) : (
           <>

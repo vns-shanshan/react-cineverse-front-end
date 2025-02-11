@@ -1,10 +1,12 @@
 import { createComment } from "@/services/movieService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+
+import * as movieService from "../../services/movieService";
 
 function CommentForm() {
   const [formData, setFormData] = useState({ commentDetails: "" });
-  const { movieId } = useParams();
+  const { movieId, commentId } = useParams();
 
   const navigate = useNavigate();
 
@@ -19,9 +21,28 @@ function CommentForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleAddComment(formData);
+
+    if (movieId && commentId) {
+      movieService.updateComment(movieId, commentId, formData);
+      navigate(`/movies/${movieId}`);
+    } else {
+      handleAddComment(formData);
+    }
+
     setFormData({ commentDetails: "" });
   };
+
+  useEffect(() => {
+    const fetchMovie = async () => {
+      const movieData = await movieService.show(movieId);
+
+      setFormData(
+        movieData.comments.find((comment) => comment._id === commentId)
+      );
+    };
+
+    if (movieId && commentId) fetchMovie();
+  }, [movieId, commentId]);
 
   return (
     <>

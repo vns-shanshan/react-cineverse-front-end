@@ -25,6 +25,15 @@ function MovieDetails() {
     navigate(`/movies/${movieId}/comments/create`);
   };
 
+  const handleDeleteComment = async (commentId) => {
+    const deletedComment = await movieService.deleteComment(movieId, commentId);
+
+    setMovie({
+      ...movie,
+      comments: movie.comments.filter((comment) => comment._id !== commentId),
+    });
+  };
+
   useEffect(() => {
     const fetchMovie = async () => {
       const movieData = await movieService.show(movieId);
@@ -75,8 +84,12 @@ function MovieDetails() {
 
               {comment.author_id._id === currentUser._id && (
                 <div>
-                  <button>Edit</button>
-                  <button>Delete</button>
+                  <Link to={`/movies/${movieId}/comments/${comment._id}/edit`}>
+                    Edit
+                  </Link>
+                  <button onClick={() => handleDeleteComment(comment._id)}>
+                    Delete
+                  </button>
                 </div>
               )}
             </header>
