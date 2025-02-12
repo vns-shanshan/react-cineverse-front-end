@@ -26,8 +26,8 @@ function MovieForm() {
     navigate("/movies");
   };
 
-  const handleUpdateMovie = async () => {
-    await movieService.updateMovie(movieId, formData);
+  const handleUpdateMovie = async (formWithPhoto) => {
+    await movieService.updateMovie(movieId, formWithPhoto);
     navigate(`/movies/${movieId}`);
   };
 
@@ -38,18 +38,19 @@ function MovieForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (movieId) {
-      handleUpdateMovie();
-    } else {
-      const formWithPhoto = new FormData();
-
-      formWithPhoto.append("title", formData.title);
-      formWithPhoto.append("genre", formData.genre);
-      formWithPhoto.append("releasedDate", formData.releasedDate);
+    const formWithPhoto = new FormData();
+    formWithPhoto.append("title", formData.title);
+    formWithPhoto.append("genre", formData.genre);
+    formWithPhoto.append("releasedDate", formData.releasedDate);
+    if (formData.runtime) {
       formWithPhoto.append("runtime", formData.runtime);
-      formWithPhoto.append("details", formData.details);
-      formWithPhoto.append("photo", formData.photo);
+    }
+    formWithPhoto.append("details", formData.details);
+    formWithPhoto.append("photo", formData.photo);
 
+    if (movieId) {
+      handleUpdateMovie(formWithPhoto);
+    } else {
       handleAddMovie(formWithPhoto);
     }
   };
