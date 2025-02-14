@@ -48,6 +48,8 @@ function MovieDetails() {
 
   return (
     <main>
+      <Link to="/movies">⬅️Back</Link>
+
       <section>
         <img src={movie.photo} alt="movie photo" />
 
@@ -82,7 +84,7 @@ function MovieDetails() {
 
               <p>{new Date(comment.createdAt).toLocaleDateString()}</p>
 
-              {comment.author_id._id === currentUser._id && (
+              {currentUser && comment.author_id._id === currentUser._id && (
                 <div>
                   <Link to={`/movies/${movieId}/comments/${comment._id}/edit`}>
                     Edit

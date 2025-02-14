@@ -77,6 +77,7 @@ import { UserContext } from "@/contexts/UserContext";
 
 import { signIn } from "@/services/authService";
 import { useNavigate } from "react-router";
+import Input from "@/components/Input/Input";
 
 export default function SignInForm() {
   const { setUser } = useContext(UserContext);
@@ -103,14 +104,14 @@ export default function SignInForm() {
         {/* register your input into the hook by invoking the "register" function */}
         <div>
           <label>Username:</label>
-          <input {...register("username", { required: true })} />
+          <Input {...register("username", { required: true })} />
           {errors.username && <span>This field is required</span>}
         </div>
 
         {/* include validation with required or other standard HTML validation rules */}
         <div>
           <label>Password:</label>
-          <input {...register("password", { required: true })} />
+          <Input {...register("password", { required: true })} />
           {/* errors will return when field validation fails  */}
           {errors.password && <span>{errors.password.type.toString()}</span>}
         </div>

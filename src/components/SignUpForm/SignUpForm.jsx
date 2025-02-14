@@ -4,6 +4,10 @@ import { useContext, useState } from "react";
 import { UserContext } from "@/contexts/UserContext";
 import { signUp } from "@/services/authService";
 
+import signUpFlyer from "@/assets/sign-inup-form-flyer.jpg";
+
+import Input from "@/components/Input/Input";
+
 const SignUpForm = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
@@ -43,7 +47,7 @@ const SignUpForm = () => {
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Username:</label>
-          <input
+          <Input
             type="text"
             id="name"
             value={username}
@@ -54,7 +58,7 @@ const SignUpForm = () => {
         </div>
         <div>
           <label htmlFor="password">Password:</label>
-          <input
+          <Input
             type="password"
             id="password"
             value={password}
@@ -65,7 +69,7 @@ const SignUpForm = () => {
         </div>
         <div>
           <label htmlFor="confirm">Confirm Password:</label>
-          <input
+          <Input
             type="password"
             id="confirm"
             value={passwordConf}
@@ -74,11 +78,13 @@ const SignUpForm = () => {
             required
           />
         </div>
+
         <div>
           <button disabled={isFormInvalid()}>Sign Up</button>
-          <button onClick={() => navigate("/")}>Cancel</button>
         </div>
       </form>
+
+      <img src={signUpFlyer} alt="Sign-Up-Flyer" />
     </main>
   );
 };

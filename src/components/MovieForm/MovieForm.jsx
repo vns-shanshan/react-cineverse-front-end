@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import * as movieService from "@/services/movieService";
-import { useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import dayjs from "dayjs";
 
 function MovieForm() {
@@ -97,6 +97,8 @@ function MovieForm() {
 
   return (
     <main>
+      {movieId && <Link to={`/movies/${movieId}`}>⬅️Back</Link>}
+
       <h1>{movieId ? "Edit Movie" : "New Movie"}</h1>
 
       <form onSubmit={handleSubmit}>

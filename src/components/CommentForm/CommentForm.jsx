@@ -1,6 +1,6 @@
 import { createComment } from "@/services/movieService";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 
 import * as movieService from "../../services/movieService";
 
@@ -46,6 +46,7 @@ function CommentForm() {
 
   return (
     <>
+      <Link to={`/movies/${movieId}`}>⬅️Back</Link>
       <h1>Add a Comment</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="commentDetails">Your comment:</label>
