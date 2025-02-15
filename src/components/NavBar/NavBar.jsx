@@ -11,7 +11,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav>
+    <nav className="flex items-center justify-between bg-transparent absolute">
       <ul className="flex">
         <li>
           <div>
@@ -22,6 +22,10 @@ const NavBar = () => {
               CineVerse
             </Link>
           </div>
+        </li>
+
+        <li>
+          <div className="bg-white h-10 w-1"></div>
         </li>
 
         <li>

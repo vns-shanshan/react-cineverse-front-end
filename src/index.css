@@ -5,6 +5,24 @@
   --font-cinzel: "Cinzel", serif;
 
   --color-primary: #f4ce14;
+  --color-white: #f5f7f8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  background-color: white;
+  font-family: system-ui, sans-serif;
+  min-height: 100dvh;
+  margin: 0;
 }
 
 /* :root {

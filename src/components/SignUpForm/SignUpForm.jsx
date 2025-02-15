@@ -4,9 +4,10 @@ import { useContext, useState } from "react";
 import { UserContext } from "@/contexts/UserContext";
 import { signUp } from "@/services/authService";
 
-import signUpFlyer from "@/assets/sign-inup-form-flyer.jpg";
+import signUpFlyer from "@/assets/sign-up-form-flyer.jpg";
 
-import Input from "@/components/Input/Input";
+import Input from "@/components/Shared/Input/Input";
+import Page from "@/components/Shared/Page/Page";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -41,51 +42,58 @@ const SignUpForm = () => {
   };
 
   return (
-    <main>
-      <h1>Sign Up</h1>
-      <p>{message}</p>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <Input
-            type="text"
-            id="name"
-            value={username}
-            name="username"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <Input
-            type="password"
-            id="password"
-            value={password}
-            name="password"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="confirm">Confirm Password:</label>
-          <Input
-            type="password"
-            id="confirm"
-            value={passwordConf}
-            name="passwordConf"
-            onChange={handleChange}
-            required
-          />
-        </div>
+    <Page
+      style={{
+        background:
+          "linear-gradient(100deg, #393B3E 0%, #919191 54%, #F5F7F8 100%)",
+      }}
+    >
+      <div>
+        <h1>Sign Up</h1>
+        {/* <p>{message}</p> */}
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="username">Username:</label>
+            <Input
+              type="text"
+              id="name"
+              value={username}
+              name="username"
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password:</label>
+            <Input
+              type="password"
+              id="password"
+              value={password}
+              name="password"
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="confirm">Confirm Password:</label>
+            <Input
+              type="password"
+              id="confirm"
+              value={passwordConf}
+              name="passwordConf"
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <div>
-          <button disabled={isFormInvalid()}>Sign Up</button>
-        </div>
-      </form>
+          <div>
+            <button disabled={isFormInvalid()}>Sign Up</button>
+          </div>
+        </form>
+      </div>
 
       <img src={signUpFlyer} alt="Sign-Up-Flyer" />
-    </main>
+    </Page>
   );
 };
 

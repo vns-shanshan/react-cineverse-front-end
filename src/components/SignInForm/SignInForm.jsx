@@ -77,7 +77,8 @@ import { UserContext } from "@/contexts/UserContext";
 
 import { signIn } from "@/services/authService";
 import { useNavigate } from "react-router";
-import Input from "@/components/Input/Input";
+import Input from "@/components/Shared/Input/Input";
+import Page from "@/components/Shared/Page/Page";
 
 export default function SignInForm() {
   const { setUser } = useContext(UserContext);
@@ -98,7 +99,7 @@ export default function SignInForm() {
   // console.log(watch("example")); // watch input value by passing the name of it
 
   return (
-    <main>
+    <Page>
       <h1>Sign In</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* register your input into the hook by invoking the "register" function */}
@@ -120,6 +121,6 @@ export default function SignInForm() {
           <input type="submit" value="Sign In" />
         </div>
       </form>
-    </main>
+    </Page>
   );
 }
