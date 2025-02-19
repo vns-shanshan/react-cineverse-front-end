@@ -99,7 +99,12 @@ export default function SignInForm() {
   // console.log(watch("example")); // watch input value by passing the name of it
 
   return (
-    <Page>
+    <Page
+      style={{
+        background:
+          "linear-gradient(100deg, #393B3E 0%, #919191 54%, #F5F7F8 100%)",
+      }}
+    >
       <h1>Sign In</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* register your input into the hook by invoking the "register" function */}

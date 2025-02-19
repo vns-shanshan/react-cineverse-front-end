@@ -1,11 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import "tailwindcss";
 
 @theme {
   --font-cinzel: "Cinzel", serif;
+  --font-inter: "Inter", serif;
 
   --color-primary: #f4ce14;
+  --color-secondary: #379777;
+  --color-secondary-hover: #225947;
   --color-white: #f5f7f8;
+  --color-black: #393b3e;
+  --color-gray: #c2c2c2;
+
+  --text-tiny: 1rem;
+  --text-sm: 1.25rem;
+  --text-sm-plus: 1.5rem;
+  --text-md: 2rem;
+  --text-lg: 3rem;
 }
 
 * {

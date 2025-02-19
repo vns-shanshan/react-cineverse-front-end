@@ -49,11 +49,20 @@ const SignUpForm = () => {
       }}
     >
       <div>
-        <h1>Sign Up</h1>
         {/* <p>{message}</p> */}
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="username">Username:</label>
+        <form
+          onSubmit={handleSubmit}
+          className="relative flex flex-col items-center w-180 "
+        >
+          <h1 className="py-5 text-md font-medium text-white">Sign Up</h1>
+
+          <div className="py-6">
+            <label
+              htmlFor="username"
+              className="block py-2 px-6 text-sm text-gray "
+            >
+              Username
+            </label>
             <Input
               type="text"
               id="name"
@@ -63,8 +72,13 @@ const SignUpForm = () => {
               required
             />
           </div>
-          <div>
-            <label htmlFor="password">Password:</label>
+          <div className="py-6">
+            <label
+              htmlFor="password"
+              className="block py-2 px-6 text-sm text-gray "
+            >
+              Password
+            </label>
             <Input
               type="password"
               id="password"
@@ -74,8 +88,13 @@ const SignUpForm = () => {
               required
             />
           </div>
-          <div>
-            <label htmlFor="confirm">Confirm Password:</label>
+          <div className="py-6">
+            <label
+              htmlFor="confirm"
+              className="block py-2 px-6 text-sm text-gray "
+            >
+              Confirm Password
+            </label>
             <Input
               type="password"
               id="confirm"
@@ -86,13 +105,26 @@ const SignUpForm = () => {
             />
           </div>
 
-          <div>
-            <button disabled={isFormInvalid()}>Sign Up</button>
+          <div className="absolute top-130 left-120 px-6">
+            <button
+              disabled={isFormInvalid()}
+              className={`px-16 py-3 text-sm rounded-xl text-white transition ${
+                isFormInvalid()
+                  ? "bg-secondary cursor-not-allowed"
+                  : "bg-secondary hover:bg-secondary-hover"
+              }`}
+            >
+              Submit
+            </button>
           </div>
         </form>
       </div>
 
-      <img src={signUpFlyer} alt="Sign-Up-Flyer" />
+      <img
+        src={signUpFlyer}
+        alt="Sign-Up-Flyer"
+        className="rounded-2xl drop-shadow-[8px_6px_8px_rgba(0,0,0,0.5)] h-180"
+      />
     </Page>
   );
 };
