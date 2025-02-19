@@ -79,6 +79,7 @@ import { signIn } from "@/services/authService";
 import { useNavigate } from "react-router";
 import Input from "@/components/Shared/Input/Input";
 import Page from "@/components/Shared/Page/Page";
+import signInFlyer from "@/assets/sign-in-form-flyer.jpg";
 
 export default function SignInForm() {
   const { setUser } = useContext(UserContext);
@@ -105,27 +106,46 @@ export default function SignInForm() {
           "linear-gradient(100deg, #393B3E 0%, #919191 54%, #F5F7F8 100%)",
       }}
     >
-      <h1>Sign In</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* register your input into the hook by invoking the "register" function */}
-        <div>
-          <label>Username:</label>
-          <Input {...register("username", { required: true })} />
-          {errors.username && <span>This field is required</span>}
-        </div>
+      <img
+        src={signInFlyer}
+        alt="Sign-In-Flyer"
+        className="rounded-2xl drop-shadow-[8px_6px_8px_rgba(0,0,0,0.5)] h-180"
+      />
 
-        {/* include validation with required or other standard HTML validation rules */}
-        <div>
-          <label>Password:</label>
-          <Input {...register("password", { required: true })} />
-          {/* errors will return when field validation fails  */}
-          {errors.password && <span>{errors.password.type.toString()}</span>}
-        </div>
+      <div>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="relative flex flex-col items-center w-180"
+        >
+          <h1 className="py-5 text-md font-medium text-white">Sign In</h1>
+          {/* register your input into the hook by invoking the "register" function */}
+          <div className="py-8">
+            <label className="block py-2 px-6 text-sm text-gray">
+              Username:
+            </label>
+            <Input {...register("username", { required: true })} />
+            {errors.username && <span>This field is required</span>}
+          </div>
 
-        <div>
-          <input type="submit" value="Sign In" />
-        </div>
-      </form>
+          {/* include validation with required or other standard HTML validation rules */}
+          <div className="py-6">
+            <label className="block py-2 px-6 text-sm text-gray">
+              Password:
+            </label>
+            <Input {...register("password", { required: true })} />
+            {/* errors will return when field validation fails  */}
+            {errors.password && <span>{errors.password.type.toString()}</span>}
+          </div>
+
+          <div className="absolute top-100 left-140 px-6">
+            <input
+              type="submit"
+              value="Sign In"
+              className="px-16 py-3 text-sm rounded-xl text-white bg-secondary hover:bg-secondary-hover"
+            />
+          </div>
+        </form>
+      </div>
     </Page>
   );
 }
