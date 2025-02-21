@@ -77,10 +77,10 @@ import { UserContext } from "@/contexts/UserContext";
 
 import { signIn } from "@/services/authService";
 import { useNavigate } from "react-router";
-import Input from "@/components/Shared/Input/Input";
-import Page from "@/components/Shared/Page/Page";
+import Input from "@/components/Input/Input";
+import Page from "@/components/Page/Page";
 import signInFlyer from "@/assets/sign-in-form-flyer.jpg";
-import Button from "@/components/Shared/Button/Button";
+import Button from "@/components/Button/Button";
 
 export default function SignInForm() {
   const { setUser } = useContext(UserContext);

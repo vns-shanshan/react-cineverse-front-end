@@ -6,9 +6,9 @@ import { signUp } from "@/services/authService";
 
 import signUpFlyer from "@/assets/sign-up-form-flyer.jpg";
 
-import Input from "@/components/Shared/Input/Input";
-import Page from "@/components/Shared/Page/Page";
-import Button from "@/components/Shared/Button/Button";
+import Input from "@/components/Input/Input";
+import Page from "@/components/Page/Page";
+import Button from "@/components/Button/Button";
 
 const SignUpForm = () => {
   const navigate = useNavigate();

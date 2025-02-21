@@ -3,13 +3,13 @@ import { Routes, Route } from "react-router";
 
 import "react";
 import { UserContext } from "@/contexts/UserContext";
-import AllMovieList from "@/components/AllMovieList/AllMovieList";
-import MovieDetails from "@/components/MovieDetails/MovieDetails";
-import MovieForm from "@/components/MovieForm/MovieForm";
-import NavBar from "@/components/NavBar/NavBar";
-import SignInForm from "@/components/SignInForm/SignInForm";
-import SignUpForm from "@/components/SignUpForm/SignUpForm";
-import CommentForm from "@/components/CommentForm/CommentForm";
+import AllMovieList from "@/routes/AllMovieList/AllMovieList";
+import MovieDetails from "@/routes/MovieDetails/MovieDetails";
+import MovieForm from "@/routes/MovieForm/MovieForm";
+import NavBar from "@/routes/NavBar/NavBar";
+import SignInForm from "@/routes/SignInForm/SignInForm";
+import SignUpForm from "@/routes/SignUpForm/SignUpForm";
+import CommentForm from "@/routes/CommentForm/CommentForm";
 
 const App = () => {
   const { user } = useContext(UserContext);

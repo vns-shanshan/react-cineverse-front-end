@@ -1,8 +1,8 @@
 import { Link } from "react-router";
 import { useState, useEffect } from "react";
 import * as movieService from "@/services/movieService";
-import MovieCard from "@/components/Shared/MovieCard/MovieCard";
-import Page from "@/components/Shared/Page/Page";
+import MovieCard from "@/features/MovieCard/MovieCard";
+import Page from "@/components/Page/Page";
 
 function AllMovieList({ userId = null }) {
   const [allMovies, setAllMovies] = useState([]);
