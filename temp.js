@@ -1,186 +1,92 @@
-// NavBar.jsx
-import { UserContext } from "@/contexts/UserContext";
-import { useContext } from "react";
-import { Link } from "react-router";
+<main className="container max-w-6xl mx-auto pt-36 px-8">
+    <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-16 items-start">
+        {/* Left: Movie Poster */}
+        <div className="w-full">
+            <img src={movie.photo} alt="Movie Poster" className="w-full rounded-lg shadow-lg" />
+        </div>
 
-const NavBar = () => {
-    const { user, setUser } = useContext(UserContext);
+        {/* Right: Movie Details + Comments */}
+        <div className="space-y-8">
+            {/* Movie Information */}
+            <div className="space-y-4">
+                <h1 className="text-3xl font-semibold">{movie.title}</h1>
 
-    const handleSignOut = () => {
-        localStorage.removeItem("token");
-        setUser(null);
-    };
+                <div className="grid grid-cols-3 gap-6 text-center">
+                    <div className="flex flex-col">
+                        <p className="uppercase text-gray-400 text-sm">Genre</p>
+                        <span className="text-white text-lg font-semibold">{movie.genre}</span>
+                    </div>
+                    <div className="flex flex-col">
+                        <p className="uppercase text-gray-400 text-sm">Year</p>
+                        <span className="text-white text-lg font-semibold">
+                            {new Date(movie.releasedDate).toLocaleDateString("en-US")}
+                        </span>
+                    </div>
+                    <div className="flex flex-col">
+                        <p className="uppercase text-gray-400 text-sm">Runtime</p>
+                        <span className="text-white text-lg font-semibold">{movie.runtime} mins</span>
+                    </div>
+                </div>
 
-    return (
-        <nav className="flex items-center justify-between bg-gradient-to-r from-gray-900 to-gray-700 px-8 py-4 shadow-lg">
-            <div className="flex items-center space-x-4">
-                <Link
-                    to="/movies"
-                    className="font-cinzel font-bold text-3xl text-yellow-400 tracking-wide"
-                >
-                    CineVerse
-                </Link>
-                <div className="w-[1px] h-8 bg-white opacity-50"></div>
-                <Link to="/movies" className="text-white text-lg hover:text-gray-300">
-                    All Movies
-                </Link>
-            </div>
+                <p className="text-gray-300 leading-relaxed">{movie.details}</p>
 
-            <div className="flex items-center space-x-6">
-                {user ? (
-                    <>
-                        <Link to="/movies/my-movies" className="text-white hover:text-gray-300">
-                            My Movies
-                        </Link>
-                        <Link to="/movies/new" className="text-white hover:text-gray-300">
-                            Add a Movie
-                        </Link>
+                {isCreator && (
+                    <div className="flex gap-4 mt-6">
                         <Link
-                            to="/sign-in"
-                            onClick={handleSignOut}
-                            className="text-white hover:text-red-400"
+                            to={`/movies/${movieId}/edit`}
+                            className="text-yellow-400 px-6 py-2 border border-yellow-400 rounded-lg hover:bg-yellow-400 hover:text-black transition duration-300"
                         >
-                            Sign Out
+                            Edit Movie
                         </Link>
-                    </>
-                ) : (
-                    <>
-                        <Link to="/sign-in" className="text-white hover:text-gray-300">
-                            Login
-                        </Link>
-                        <Link
-                            to="/sign-up"
-                            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
+                        <button
+                            onClick={handleDeleteMovie}
+                            className="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition duration-300"
                         >
-                            Sign Up
-                        </Link>
-                    </>
+                            Delete Movie
+                        </button>
+                    </div>
                 )}
             </div>
-        </nav>
-    );
-};
 
-export default NavBar;
+            {/* Comments Section */}
+            <section className="mt-12">
+                <h2 className="text-2xl font-semibold">Comments</h2>
 
+                {isLoggedIn && (
+                    <button
+                        onClick={handleCommentClick}
+                        className="bg-green-500 text-white px-8 py-3 rounded-lg hover:bg-green-600 transition duration-300 mt-4"
+                    >
+                        Add a Comment
+                    </button>
+                )}
 
-// SignUpForm.jsx
-import { useContext, useState } from "react";
-import { UserContext } from "@/contexts/UserContext";
-import { useNavigate } from "react-router";
-import { signUp } from "@/services/authService";
+                {!movie.comments.length && <p className="text-gray-400 mt-4">There are no comments.</p>}
 
-import signUpFlyer from "@/assets/sign-up-form-flyer.jpg";
-import Input from "@/components/Input/Input";
+                {movie.comments.map((comment) => (
+                    <article key={comment._id} className="bg-gray-800 p-4 rounded-lg mt-4">
+                        <header className="flex justify-between items-center text-gray-300">
+                            <div>
+                                <h4 className="font-semibold text-white">{comment.author_id.username}</h4>
+                                <p className="text-xs text-gray-500">{new Date(comment.createdAt).toLocaleDateString()}</p>
+                            </div>
 
-const SignUpForm = () => {
-    const navigate = useNavigate();
-    const { setUser } = useContext(UserContext);
-    const [message, setMessage] = useState("");
-    const [formData, setFormData] = useState({
-        username: "",
-        password: "",
-        passwordConf: "",
-    });
+                            {currentUser && comment.author_id._id === currentUser._id && (
+                                <div className="flex gap-2">
+                                    <Link to={`/movies/${movieId}/comments/${comment._id}/edit`}>
+                                        <img src={editBtn} alt="Edit" className="w-5 h-5" />
+                                    </Link>
+                                    <button onClick={() => handleDeleteComment(comment._id)}>
+                                        <img src={deleteBtn} alt="Delete" className="w-5 h-5" />
+                                    </button>
+                                </div>
+                            )}
+                        </header>
 
-    const { username, password, passwordConf } = formData;
-
-    const handleChange = (evt) => {
-        setMessage("");
-        setFormData({ ...formData, [evt.target.name]: evt.target.value });
-    };
-
-    const handleSubmit = async (evt) => {
-        evt.preventDefault();
-        try {
-            const newUser = await signUp(formData);
-            setUser(newUser);
-            navigate("/movies");
-        } catch (err) {
-            setMessage(err.message);
-        }
-    };
-
-    const isFormInvalid = () => {
-        return !(username && password && password === passwordConf);
-    };
-
-    return (
-        <main className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-900 to-gray-700">
-            <div className="bg-gray-800 shadow-lg rounded-lg p-8 w-full max-w-2xl flex">
-                {/* Left Side (Form) */}
-                <div className="w-1/2">
-                    <h1 className="text-white text-3xl font-semibold mb-6">Sign Up</h1>
-                    {message && <p className="text-red-500">{message}</p>}
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <div>
-                            <label htmlFor="username" className="text-gray-300 block mb-2">
-                                Username:
-                            </label>
-                            <Input
-                                type="text"
-                                id="username"
-                                value={username}
-                                name="username"
-                                onChange={handleChange}
-                                required
-                                className="w-full bg-gray-700 text-white p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="password" className="text-gray-300 block mb-2">
-                                Password:
-                            </label>
-                            <Input
-                                type="password"
-                                id="password"
-                                value={password}
-                                name="password"
-                                onChange={handleChange}
-                                required
-                                className="w-full bg-gray-700 text-white p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="confirm" className="text-gray-300 block mb-2">
-                                Confirm Password:
-                            </label>
-                            <Input
-                                type="password"
-                                id="confirm"
-                                value={passwordConf}
-                                name="passwordConf"
-                                onChange={handleChange}
-                                required
-                                className="w-full bg-gray-700 text-white p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                            />
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={isFormInvalid()}
-                            className={`w-full text-white py-3 rounded-md transition ${isFormInvalid()
-                                ? "bg-gray-500 cursor-not-allowed"
-                                : "bg-green-500 hover:bg-green-600"
-                                }`}
-                        >
-                            Sign Up
-                        </button>
-                    </form>
-                </div>
-
-                {/* Right Side (Image) */}
-                <div className="w-1/2 flex items-center justify-center">
-                    <img
-                        src={signUpFlyer}
-                        alt="Sign-Up-Flyer"
-                        className="w-full rounded-lg shadow-lg"
-                    />
-                </div>
-            </div>
-        </main>
-    );
-};
-
-export default SignUpForm;
-
+                        <p className="text-gray-200 mt-2">{comment.commentDetails}</p>
+                    </article>
+                ))}
+            </section>
+        </div>
+    </div>
+</main>

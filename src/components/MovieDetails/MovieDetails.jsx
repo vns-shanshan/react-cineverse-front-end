@@ -5,6 +5,10 @@ import { useNavigate } from "react-router";
 import * as movieService from "@/services/movieService";
 import { UserContext } from "@/contexts/UserContext";
 
+import backBtn from "@/assets/back-btn.png";
+import editBtn from "@/assets/edit-comment-btn.png";
+import deleteBtn from "@/assets/delete-comment-btn.png";
+
 function MovieDetails() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
@@ -47,60 +51,111 @@ function MovieDetails() {
   if (!movie) return <main>Loading...</main>;
 
   return (
-    <main>
-      <Link to="/movies">⬅️Back</Link>
+    <div className="bg-black min-h-screen text-white">
+      <main className="container max-w-5xl mx-auto pt-36 ">
+        <Link to="/movies" className="absolute left-20 top-30">
+          <img src={backBtn} alt="back button" />
+        </Link>
 
-      <section>
-        <img src={movie.photo} alt="movie photo" />
+        <section className="mt-8 flex flex-col md:flex-row gap-16 items-start">
+          <img
+            src={movie.photo}
+            alt="movie photo"
+            className="w-full md:w-1/3 rounded-lg"
+          />
 
-        <h1>{movie.title}</h1>
-        <h3>Genre {movie.genre}</h3>
-        <h3>Year {movie.releasedDate}</h3>
-        <h3>Runtime {movie.runtime}</h3>
+          <div className="flex-1 space-y-4">
+            <h1 className="text-lg font-semibold">{movie.title}</h1>
 
-        <p>{movie.details}</p>
+            <div className="flex flex-wrap gap-12 text-sm justify-between">
+              <div className="flex flex-col">
+                <span className="text-white font-semibold">{movie.genre}</span>
+                <p className="text-gray text-tiny pt-4">Genre</p>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-white font-semibold">
+                  {new Date(movie.releasedDate).toLocaleDateString("en-US")}
+                </span>
+                <p className="text-gray text-tiny pt-4">Year</p>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-white font-semibold">
+                  {movie.runtime} mins
+                </span>
+                <p className="text-gray text-tiny pt-4">Runtime</p>
+              </div>
+            </div>
 
-        {isCreator && (
-          <div>
-            <Link to={`/movies/${movieId}/edit`}>Edit Movie</Link>
-            <button onClick={() => handleDeleteMovie()}>Delete Movie</button>
+            <p className="text-gray leading-relaxed">{movie.details}</p>
+
+            {isCreator && (
+              <div className="flex gap-8 mt-6">
+                <Link
+                  to={`/movies/${movieId}/edit`}
+                  className=" text-primary px-8 py-2 border-1 rounded-lg hover:bg-primary hover:text-white hover:border-1 transition duration-300"
+                >
+                  Edit Movie
+                </Link>
+
+                <button
+                  onClick={() => handleDeleteMovie()}
+                  className="bg-accent text-white px-8 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                >
+                  Delete Movie
+                </button>
+              </div>
+            )}
           </div>
-        )}
-      </section>
+        </section>
 
-      <section>
-        <h2>Comments</h2>
+        <section className="mt-12">
+          <h2 className="text-sm-plus font-semibold">Comments</h2>
 
-        {!movie.comments.length && <p>There are no comments.</p>}
+          {isLoggedIn && (
+            <button
+              onClick={handleCommentClick}
+              className="bg-secondary text-white px-16 py-3 rounded-lg hover:bg-secondary-hover transition duration-300 mt-4 text-sm"
+            >
+              Add a Comment
+            </button>
+          )}
 
-        {isLoggedIn && (
-          <button onClick={handleCommentClick}>Add a Comment</button>
-        )}
+          {!movie.comments.length && (
+            <p className="text-gray mt-4">There are no comments.</p>
+          )}
 
-        {movie.comments.map((comment) => (
-          <article key={comment._id}>
-            <header>
-              <h4>{comment.author_id.username}</h4>
-
-              <p>{new Date(comment.createdAt).toLocaleDateString()}</p>
-
-              {currentUser && comment.author_id._id === currentUser._id && (
+          {movie.comments.map((comment) => (
+            <article key={comment._id} className="p-4 mt-4">
+              <header className="flex justify-between items-center text-gray">
                 <div>
-                  <Link to={`/movies/${movieId}/comments/${comment._id}/edit`}>
-                    Edit
-                  </Link>
-                  <button onClick={() => handleDeleteComment(comment._id)}>
-                    Delete
-                  </button>
+                  <h4 className="font-semibold text-sm text-white">
+                    {comment.author_id.username}
+                  </h4>
+                  <p className="text-tiny text-gray font-light pt-2">
+                    {new Date(comment.createdAt).toLocaleDateString()}
+                  </p>
                 </div>
-              )}
-            </header>
 
-            <p>{comment.commentDetails}</p>
-          </article>
-        ))}
-      </section>
-    </main>
+                {currentUser && comment.author_id._id === currentUser._id && (
+                  <div className="flex gap-4">
+                    <Link
+                      to={`/movies/${movieId}/comments/${comment._id}/edit`}
+                    >
+                      <img src={editBtn} alt="edit button" />
+                    </Link>
+                    <button onClick={() => handleDeleteComment(comment._id)}>
+                      <img src={deleteBtn} alt="delete button" />
+                    </button>
+                  </div>
+                )}
+              </header>
+
+              <p className="text-gray mt-6">{comment.commentDetails}</p>
+            </article>
+          ))}
+        </section>
+      </main>
+    </div>
   );
 }
 
