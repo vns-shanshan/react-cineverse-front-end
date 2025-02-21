@@ -61,32 +61,32 @@ function MovieDetails() {
           <img
             src={movie.photo}
             alt="movie photo"
-            className="w-full md:w-1/3 rounded-lg"
+            className="w-full h-130 md:w-1/3 rounded-2xl"
           />
 
-          <div className="flex-1 space-y-4">
-            <h1 className="text-lg font-semibold">{movie.title}</h1>
+          <div className="flex-1 space-y-4 ">
+            <h1 className="text-lg font-semibold pb-4">{movie.title}</h1>
 
-            <div className="flex flex-wrap gap-12 text-sm justify-between">
+            <div className="flex flex-wrap gap-12 text-sm justify-between pb-4">
               <div className="flex flex-col">
                 <span className="text-white font-semibold">{movie.genre}</span>
-                <p className="text-gray text-tiny pt-4">Genre</p>
+                <p className="text-gray text-tiny pt-2">Genre</p>
               </div>
               <div className="flex flex-col">
                 <span className="text-white font-semibold">
                   {new Date(movie.releasedDate).toLocaleDateString("en-US")}
                 </span>
-                <p className="text-gray text-tiny pt-4">Year</p>
+                <p className="text-gray text-tiny pt-2">Year</p>
               </div>
               <div className="flex flex-col">
                 <span className="text-white font-semibold">
                   {movie.runtime} mins
                 </span>
-                <p className="text-gray text-tiny pt-4">Runtime</p>
+                <p className="text-gray text-tiny pt-2">Runtime</p>
               </div>
             </div>
 
-            <p className="text-gray leading-relaxed">{movie.details}</p>
+            <p className="text-gray leading-relaxed pb-4">{movie.details}</p>
 
             {isCreator && (
               <div className="flex gap-8 mt-6">
@@ -151,6 +151,8 @@ function MovieDetails() {
               </header>
 
               <p className="text-gray mt-6">{comment.commentDetails}</p>
+
+              <hr className="text-white mt-6" />
             </article>
           ))}
         </section>
