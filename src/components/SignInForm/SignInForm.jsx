@@ -80,6 +80,7 @@ import { useNavigate } from "react-router";
 import Input from "@/components/Shared/Input/Input";
 import Page from "@/components/Shared/Page/Page";
 import signInFlyer from "@/assets/sign-in-form-flyer.jpg";
+import Button from "@/components/Shared/Button/Button";
 
 export default function SignInForm() {
   const { setUser } = useContext(UserContext);
@@ -121,7 +122,7 @@ export default function SignInForm() {
           {/* register your input into the hook by invoking the "register" function */}
           <div className="py-8">
             <label className="block py-2 px-6 text-sm text-gray">
-              Username:
+              Username
             </label>
             <Input {...register("username", { required: true })} />
             {errors.username && <span>This field is required</span>}
@@ -130,19 +131,17 @@ export default function SignInForm() {
           {/* include validation with required or other standard HTML validation rules */}
           <div className="py-6">
             <label className="block py-2 px-6 text-sm text-gray">
-              Password:
+              Password
             </label>
             <Input {...register("password", { required: true })} />
             {/* errors will return when field validation fails  */}
             {errors.password && <span>{errors.password.type.toString()}</span>}
           </div>
 
-          <div className="absolute top-100 left-140 px-6">
-            <input
-              type="submit"
-              value="Sign In"
-              className="px-16 py-3 text-sm rounded-xl text-white bg-secondary hover:bg-secondary-hover"
-            />
+          <div className="absolute top-100 left-110 px-6">
+            <Button color="secondary" type="submit">
+              Sign In
+            </Button>
           </div>
         </form>
       </div>

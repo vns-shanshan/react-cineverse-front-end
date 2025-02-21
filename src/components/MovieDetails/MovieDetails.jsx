@@ -8,6 +8,7 @@ import { UserContext } from "@/contexts/UserContext";
 import backBtn from "@/assets/back-btn.png";
 import editBtn from "@/assets/edit-comment-btn.png";
 import deleteBtn from "@/assets/delete-comment-btn.png";
+import Button from "@/components/Shared/Button/Button";
 
 function MovieDetails() {
   const { movieId } = useParams();
@@ -97,12 +98,14 @@ function MovieDetails() {
                   Edit Movie
                 </Link>
 
-                <button
+                <Button
+                  color="accent"
+                  variant="outlined"
+                  className="transition duration-300"
                   onClick={() => handleDeleteMovie()}
-                  className="bg-accent text-white px-8 py-2 rounded-lg hover:bg-red-600 transition duration-300"
                 >
                   Delete Movie
-                </button>
+                </Button>
               </div>
             )}
           </div>
@@ -112,12 +115,14 @@ function MovieDetails() {
           <h2 className="text-sm-plus font-semibold">Comments</h2>
 
           {isLoggedIn && (
-            <button
+            <Button
               onClick={handleCommentClick}
-              className="bg-secondary text-white px-16 py-3 rounded-lg hover:bg-secondary-hover transition duration-300 mt-4 text-sm"
+              color="secondary"
+              variant="outlined"
+              className="px-16 py-3 transition duration-300 mt-4 text-sm"
             >
               Add a Comment
-            </button>
+            </Button>
           )}
 
           {!movie.comments.length && (
@@ -143,7 +148,10 @@ function MovieDetails() {
                     >
                       <img src={editBtn} alt="edit button" />
                     </Link>
-                    <button onClick={() => handleDeleteComment(comment._id)}>
+                    <button
+                      onClick={() => handleDeleteComment(comment._id)}
+                      className="cursor-pointer"
+                    >
                       <img src={deleteBtn} alt="delete button" />
                     </button>
                   </div>

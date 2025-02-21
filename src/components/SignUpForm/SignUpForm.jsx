@@ -8,6 +8,7 @@ import signUpFlyer from "@/assets/sign-up-form-flyer.jpg";
 
 import Input from "@/components/Shared/Input/Input";
 import Page from "@/components/Shared/Page/Page";
+import Button from "@/components/Shared/Button/Button";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -106,16 +107,9 @@ const SignUpForm = () => {
           </div>
 
           <div className="absolute top-130 left-120 px-6">
-            <button
-              disabled={isFormInvalid()}
-              className={`px-16 py-3 text-sm rounded-xl text-white transition ${
-                isFormInvalid()
-                  ? "bg-secondary cursor-not-allowed"
-                  : "bg-secondary hover:bg-secondary-hover"
-              }`}
-            >
+            <Button disabled={isFormInvalid()} color="secondary">
               Submit
-            </button>
+            </Button>
           </div>
         </form>
       </div>
