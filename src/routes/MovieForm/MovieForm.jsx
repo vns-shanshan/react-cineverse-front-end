@@ -2,6 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import * as movieService from "@/services/movieService";
 import { Link, useNavigate, useParams } from "react-router";
 import dayjs from "dayjs";
+import Input from "@/components/Input/Input";
+import Button from "@/components/Button/Button";
+import Page from "@/components/Page/Page";
+
+import backBtn from "@/assets/back-btn.png";
+import uploadImg from "@/assets/upload-btn.png";
 
 function MovieForm() {
   const { movieId } = useParams();
@@ -96,88 +102,160 @@ function MovieForm() {
   }, [movieId]);
 
   return (
-    <main>
-      {movieId && <Link to={`/movies/${movieId}`}>⬅️Back</Link>}
-
-      <h1>{movieId ? "Edit Movie" : "New Movie"}</h1>
-
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Title *</label>
-        <input
-          required
-          type="text"
-          name="title"
-          id="title"
-          value={formData.title}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="genre">Genre *</label>
-        <select
-          required
-          name="genre"
-          id="genre"
-          value={formData.genre}
-          onChange={handleChange}
-        >
-          <option value="Action">Action</option>
-          <option value="Comedy">Comedy</option>
-          <option value="Sci-Fi">Sci-Fi</option>
-          <option value="Horror">Horror</option>
-          <option value="Documentary">Documentary</option>
-        </select>
-
-        <label htmlFor="releasedDate">Released Date *</label>
-        <input
-          required
-          type="date"
-          name="releasedDate"
-          id="releasedDate"
-          value={formData.releasedDate}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="runtime">Runtime (mins)</label>
-        <input
-          type="number"
-          name="runtime"
-          id="runtime"
-          value={formData.runtime}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="details">Details *</label>
-        <textarea
-          required
-          name="details"
-          id="details"
-          value={formData.details}
-          onChange={handleChange}
-          maxLength={200}
-          rows={4}
-          placeholder="Enter movie details (max 200 characters)"
-        ></textarea>
-
-        <label htmlFor="movie-pic">Movie Pic:</label>
-        <input
-          ref={fileUploadRef}
-          type="file"
-          id="movie-pic"
-          onChange={handleFileInput}
-          hidden
-        />
-
-        {photoPreviewUrl ? (
-          <img width={200} src={photoPreviewUrl} onClick={openFilePicker} />
-        ) : (
-          <button type="button" onClick={openFilePicker}>
-            placeholder
-          </button>
+    <div className="bg-black min-h-screen text-white">
+      <Page classes="flex-col mt-10">
+        {movieId && (
+          <Link to={`/movies/${movieId}`}>
+            <img
+              src={backBtn}
+              alt="Back Button"
+              className="absolute left-20 top-30"
+            />
+          </Link>
         )}
 
-        <button type="submit">{movieId ? "Update Movie" : "Add Movie"}</button>
-      </form>
-    </main>
+        <h1 className="text-md font-semibold text-center mb-6">
+          {movieId ? "Edit Movie" : "New Movie"}
+        </h1>
+
+        <form onSubmit={handleSubmit} className="flex gap-12">
+          <div className="flex justify-center">
+            <div
+              className="w-80 aspect-2/3 rounded-2xl flex items-center justify-center border-2 border-dashed border-gray cursor-pointer"
+              onClick={openFilePicker}
+            >
+              {photoPreviewUrl ? (
+                <img
+                  src={photoPreviewUrl}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+              ) : (
+                <span className="text-gray flex flex-col items-center gap-4">
+                  <img
+                    src={uploadImg}
+                    alt="Upload Button"
+                    className="w-8 h-8"
+                  />
+                  Click to upload your image
+                </span>
+              )}
+            </div>
+            <input
+              ref={fileUploadRef}
+              type="file"
+              className="hidden"
+              onChange={handleFileInput}
+            />
+          </div>
+
+          <div className="min-w-xl">
+            <div>
+              <label
+                htmlFor="title"
+                className="block text-sm font-medium text-gray mb-2 ml-2"
+              >
+                Title <span className="text-accent">*</span>
+              </label>
+              <Input
+                required
+                type="text"
+                name="title"
+                id="title"
+                value={formData.title}
+                onChange={handleChange}
+                fullWidth
+              />
+            </div>
+
+            <div className="flex gap-6  mt-4">
+              <div className="flex-1">
+                <label
+                  htmlFor="genre"
+                  className="block text-sm font-medium text-gray ml-2 mb-2"
+                >
+                  Genre <span className="text-accent">*</span>
+                </label>
+                <select
+                  required
+                  name="genre"
+                  id="genre"
+                  value={formData.genre}
+                  onChange={handleChange}
+                  className="w-full bg-white text-black p-3 rounded-3xl focus:outline-none focus:ring-2 focus:ring-gray"
+                >
+                  <option value="Action">Action</option>
+                  <option value="Comedy">Comedy</option>
+                  <option value="Sci-Fi">Sci-Fi</option>
+                  <option value="Horror">Horror</option>
+                  <option value="Documentary">Documentary</option>
+                </select>
+              </div>
+
+              <div className="flex-1">
+                <label
+                  htmlFor="releasedDate"
+                  className="ml-2 mb-2 block text-sm font-medium text-gray"
+                >
+                  Released Date <span className="text-accent">*</span>
+                </label>
+                <Input
+                  required
+                  type="date"
+                  name="releasedDate"
+                  id="releasedDate"
+                  value={formData.releasedDate}
+                  onChange={handleChange}
+                  fullWidth
+                />
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <label
+                htmlFor="runtime"
+                className="ml-2 mb-2 block text-sm font-medium text-gray"
+              >
+                Runtime (mins)
+              </label>
+              <Input
+                type="number"
+                name="runtime"
+                id="runtime"
+                value={formData.runtime}
+                onChange={handleChange}
+                fullWidth
+              />
+            </div>
+
+            <div className="mt-4">
+              <label
+                htmlFor="details"
+                className="ml-2 mb-2 block text-sm font-medium text-gray"
+              >
+                Details <span className="text-accent">*</span>
+              </label>
+              <textarea
+                required
+                name="details"
+                id="details"
+                value={formData.details}
+                onChange={handleChange}
+                maxLength={200}
+                rows={4}
+                placeholder="Enter movie details (max 200 characters)"
+                className="w-full bg-white text-black p-3 rounded-3xl focus:outline-none focus:ring-2 focus:ring-gray"
+              ></textarea>
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <Button color="secondary" type="submit">
+                {movieId ? "Update Movie" : "Add Movie"}
+              </Button>
+            </div>
+          </div>
+        </form>
+      </Page>
+    </div>
   );
 }
 

@@ -6,9 +6,6 @@ import * as movieService from "@/services/movieService";
 import { UserContext } from "@/contexts/UserContext";
 
 import backBtn from "@/assets/back-btn.png";
-import editBtn from "@/assets/edit-comment-btn.png";
-import deleteBtn from "@/assets/delete-comment-btn.png";
-import Button from "@/components/Button/Button";
 import MovieInfo from "@/features/MovieInfo/MovieInfo";
 import MovieComments from "@/features/MovieComments/MovieComments";
 
