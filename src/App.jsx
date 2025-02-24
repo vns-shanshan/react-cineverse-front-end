@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Routes, Route } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 
 import "react";
 import { UserContext } from "@/contexts/UserContext";
@@ -18,6 +18,7 @@ const App = () => {
     <>
       <NavBar />
       <Routes>
+        <Route path="/" element={<Navigate to="/movies" replace />} />
         <Route path="/movies" element={<AllMovieList />} />
         <Route path="/movies/:movieId" element={<MovieDetails />} />
 
