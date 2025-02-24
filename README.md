@@ -1,19 +1,36 @@
-# React JWT Auth Template
+# 🎞️ CineVerse
 
-## About
+![CineVerse Image](/src/assets/cineverse-pic.png)
 
-This repo is a React JWT Auth template meant to be paired with a back-end app utilizing JWT tokens.
+### App name: CineVerse
 
-## Getting started
+Cineverse is a movie comment app that allows users to browse movies, leave comments, and engage with other movie enthusiasts. The app is designed with a RESTful API and supports user authentication and interaction features.
 
-Fork and clone this repository to your local machine.
+**Key Features:**
 
-After moving into the cloned directory, run `npm i` to download the dependencies.
+- Browse a vast collection of movies.
 
-Create a `.env` file in the root of the project and add the following:
+- Leave comments and engage in discussions.
 
-```plaintext
-VITE_BACK_END_SERVER_URL=http://localhost:3000
-```
+- Add movies in your account and manage them.
 
-Start the app with `npm run dev`.
+### Getting Started:
+
+- [Github - CineVerse](hhttps://github.com/vns-shanshan/react-cineverse-front-end)
+- [Trello - Planning CineVerse](https://trello.com/b/WoXuOYtX/movie-blog)
+<!-- - [Heroku - CineVerse]() -->
+
+### Technologies Used:
+
+- **HTML**
+- **Tailwind CSS**
+- **React**
+- **Node.js**
+- **Express**
+- **MongoDB**
+- **AWS S3**
+
+### Next Steps:
+
+- **User Search**: Enable users to search movies.
+- **Profile Image Upload**: Let users upload and display a profile picture. Uploaded images can be stored in AWS S3.
