@@ -27,6 +27,7 @@ function AllMovieList({ userId = null }) {
   return (
     <div className="bg-black min-h-screen text-white">
       <Page classes="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 p-8 max-w-7xl mx-auto m-16 ">
+        {!allMovies && <h1>There are no movies.</h1>}
         {allMovies.map((movie) => (
           <Link key={movie._id} to={`/movies/${movie._id}`}>
             <MovieCard movie={movie} />
