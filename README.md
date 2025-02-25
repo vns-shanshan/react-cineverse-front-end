@@ -16,9 +16,11 @@ Cineverse is a movie comment app that allows users to browse movies, leave comme
 
 ### Getting Started:
 
+- [CineVerse App](https://cineverse-movie-rating.netlify.app/movies)
+
 - [Github - CineVerse](hhttps://github.com/vns-shanshan/react-cineverse-front-end)
 - [Trello - Planning CineVerse](https://trello.com/b/WoXuOYtX/movie-blog)
-<!-- - [Heroku - CineVerse]() -->
+- [Heroku - CineVerse](https://cineverse-app-48c68c5cc7a5.herokuapp.com/movies)
 
 ### Technologies Used:
 
